@@ -1,0 +1,2714 @@
+Terminals unused in grammar
+
+   ','
+
+
+Grammar
+
+    0 $accept: Program $end
+
+    1 Program: StatementList
+
+    2 StatementList: StatementList Statement
+    3              | Statement
+
+    4 Statement: DeclarationStmt NEWLINE
+    5          | SimpleStmt NEWLINE
+    6          | Block NEWLINE
+    7          | IfStmt NEWLINE
+    8          | ForStmt NEWLINE
+    9          | PrintStmt NEWLINE
+   10          | NEWLINE
+
+   11 DeclarationStmt: VAR IDENT Type
+   12                | VAR IDENT Type '=' Expression
+
+   13 TypeName: INT
+   14         | FLOAT
+   15         | STRING
+   16         | BOOL
+
+   17 Type: TypeX TypeName
+   18     | TypeName
+
+   19 TypeX: TypeX '[' Expression ']'
+   20      | '[' Expression ']'
+
+   21 Expression: Expression LOR Expression2
+   22           | Expression2
+
+   23 Expression2: Expression2 LAND Expression3
+   24            | Expression3
+
+   25 Expression3: Expression3 '>' Expression5
+   26            | Expression3 '<' Expression5
+   27            | Expression3 GEQ Expression5
+   28            | Expression3 LEQ Expression5
+   29            | Expression3 EQL Expression5
+   30            | Expression3 NEQ Expression5
+   31            | Expression5
+
+   32 Expression5: Expression5 '+' Expression6
+   33            | Expression5 '-' Expression6
+   34            | Expression6
+
+   35 Expression6: Expression6 '*' Expression7
+   36            | Expression6 '/' Expression7
+   37            | Expression6 '%' Expression7
+   38            | Expression7
+
+   39 Expression7: UnaryExpr
+
+   40 UnaryExpr: UnaryExprX PrimaryExpr
+   41          | PrimaryExpr
+
+   42 UnaryExprX: UnaryExprX unary_op
+   43           | unary_op
+
+   44 unary_op: '+'
+   45         | '-'
+   46         | '!'
+
+   47 PrimaryExpr: Operand
+   48            | PrimaryExpr '[' Expression ']'
+   49            | Type '(' Expression ')'
+
+   50 Operand: INT_LIT
+   51        | FLOAT_LIT
+   52        | TRUE
+   53        | FALSE
+   54        | '"' STRING_LIT '"'
+   55        | IDENT
+   56        | '(' Expression ')'
+
+   57 SimpleStmt: Expression '=' Expression
+   58           | Expression ADD_ASSIGN Expression
+   59           | Expression SUB_ASSIGN Expression
+   60           | Expression MUL_ASSIGN Expression
+   61           | Expression QUO_ASSIGN Expression
+   62           | Expression REM_ASSIGN Expression
+   63           | Expression
+   64           | Expression INC
+   65           | Expression DEC
+
+   66 $@1: %empty
+
+   67 Block: '{' $@1 StatementList '}'
+
+   68 $@2: %empty
+
+   69 IfStmt: IF Expression $@2 IfStmt2
+
+   70 IfStmt2: Block
+   71        | Block ELSE IfStmt3
+
+   72 IfStmt3: IfStmt
+   73        | Block
+
+   74 $@3: %empty
+
+   75 ForStmt: FOR Expression '{' $@3 StatementList '}'
+   76        | FOR ForClause '{' StatementList '}'
+
+   77 ForClause: SimpleStmt ';' Expression ';' SimpleStmt
+
+   78 PrintStmt: PRINT '(' Expression ')'
+   79          | PRINTLN '(' Expression ')'
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'!' (33) 46
+'"' (34) 54
+'%' (37) 37
+'(' (40) 49 56 78 79
+')' (41) 49 56 78 79
+'*' (42) 35
+'+' (43) 32 44
+',' (44)
+'-' (45) 33 45
+'/' (47) 36
+';' (59) 77
+'<' (60) 26
+'=' (61) 12 57
+'>' (62) 25
+'[' (91) 19 20 48
+']' (93) 19 20 48
+'{' (123) 67 75 76
+'}' (125) 67 75 76
+error (256)
+VAR (258) 11 12
+INT (259) 13
+FLOAT (260) 14
+BOOL (261) 16
+STRING (262) 15
+INC (263) 64
+DEC (264) 65
+GEQ (265) 27
+LEQ (266) 28
+EQL (267) 29
+NEQ (268) 30
+ADD_ASSIGN (269) 58
+SUB_ASSIGN (270) 59
+MUL_ASSIGN (271) 60
+QUO_ASSIGN (272) 61
+REM_ASSIGN (273) 62
+LAND (274) 23
+LOR (275) 21
+NEWLINE (276) 4 5 6 7 8 9 10
+PRINT (277) 78
+PRINTLN (278) 79
+IF (279) 69
+ELSE (280) 71
+FOR (281) 75 76
+TRUE (282) 52
+FALSE (283) 53
+INT_LIT (284) 50
+FLOAT_LIT (285) 51
+STRING_LIT (286) 54
+IDENT (287) 11 12 55
+
+
+Nonterminals, with rules where they appear
+
+$accept (51)
+    on left: 0
+Program (52)
+    on left: 1, on right: 0
+StatementList (53)
+    on left: 2 3, on right: 1 2 67 75 76
+Statement (54)
+    on left: 4 5 6 7 8 9 10, on right: 2 3
+DeclarationStmt (55)
+    on left: 11 12, on right: 4
+TypeName (56)
+    on left: 13 14 15 16, on right: 17 18
+Type (57)
+    on left: 17 18, on right: 11 12 49
+TypeX (58)
+    on left: 19 20, on right: 17 19
+Expression (59)
+    on left: 21 22, on right: 12 19 20 21 48 49 56 57 58 59 60 61 62
+    63 64 65 69 75 77 78 79
+Expression2 (60)
+    on left: 23 24, on right: 21 22 23
+Expression3 (61)
+    on left: 25 26 27 28 29 30 31, on right: 23 24 25 26 27 28 29 30
+Expression5 (62)
+    on left: 32 33 34, on right: 25 26 27 28 29 30 31 32 33
+Expression6 (63)
+    on left: 35 36 37 38, on right: 32 33 34 35 36 37
+Expression7 (64)
+    on left: 39, on right: 35 36 37 38
+UnaryExpr (65)
+    on left: 40 41, on right: 39
+UnaryExprX (66)
+    on left: 42 43, on right: 40 42
+unary_op (67)
+    on left: 44 45 46, on right: 42 43
+PrimaryExpr (68)
+    on left: 47 48 49, on right: 40 41 48
+Operand (69)
+    on left: 50 51 52 53 54 55 56, on right: 47
+SimpleStmt (70)
+    on left: 57 58 59 60 61 62 63 64 65, on right: 5 77
+Block (71)
+    on left: 67, on right: 6 70 71 73
+$@1 (72)
+    on left: 66, on right: 67
+IfStmt (73)
+    on left: 69, on right: 7 72
+$@2 (74)
+    on left: 68, on right: 69
+IfStmt2 (75)
+    on left: 70 71, on right: 69
+IfStmt3 (76)
+    on left: 72 73, on right: 71
+ForStmt (77)
+    on left: 75 76, on right: 8
+$@3 (78)
+    on left: 74, on right: 75
+ForClause (79)
+    on left: 77, on right: 76
+PrintStmt (80)
+    on left: 78 79, on right: 9
+
+
+State 0
+
+    0 $accept: . Program $end
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    Program          go to state 23
+    StatementList    go to state 24
+    Statement        go to state 25
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 1
+
+   11 DeclarationStmt: VAR . IDENT Type
+   12                | VAR . IDENT Type '=' Expression
+
+    IDENT  shift, and go to state 46
+
+
+State 2
+
+   13 TypeName: INT .
+
+    $default  reduce using rule 13 (TypeName)
+
+
+State 3
+
+   14 TypeName: FLOAT .
+
+    $default  reduce using rule 14 (TypeName)
+
+
+State 4
+
+   16 TypeName: BOOL .
+
+    $default  reduce using rule 16 (TypeName)
+
+
+State 5
+
+   15 TypeName: STRING .
+
+    $default  reduce using rule 15 (TypeName)
+
+
+State 6
+
+   54 Operand: '"' . STRING_LIT '"'
+
+    STRING_LIT  shift, and go to state 47
+
+
+State 7
+
+   44 unary_op: '+' .
+
+    $default  reduce using rule 44 (unary_op)
+
+
+State 8
+
+   45 unary_op: '-' .
+
+    $default  reduce using rule 45 (unary_op)
+
+
+State 9
+
+   46 unary_op: '!' .
+
+    $default  reduce using rule 46 (unary_op)
+
+
+State 10
+
+   56 Operand: '(' . Expression ')'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 48
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 11
+
+   20 TypeX: '[' . Expression ']'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 49
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 12
+
+   67 Block: '{' . $@1 StatementList '}'
+
+    $default  reduce using rule 66 ($@1)
+
+    $@1  go to state 50
+
+
+State 13
+
+   10 Statement: NEWLINE .
+
+    $default  reduce using rule 10 (Statement)
+
+
+State 14
+
+   78 PrintStmt: PRINT . '(' Expression ')'
+
+    '('  shift, and go to state 51
+
+
+State 15
+
+   79 PrintStmt: PRINTLN . '(' Expression ')'
+
+    '('  shift, and go to state 52
+
+
+State 16
+
+   69 IfStmt: IF . Expression $@2 IfStmt2
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 53
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 17
+
+   75 ForStmt: FOR . Expression '{' $@3 StatementList '}'
+   76        | FOR . ForClause '{' StatementList '}'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 54
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+    SimpleStmt   go to state 55
+    ForClause    go to state 56
+
+
+State 18
+
+   52 Operand: TRUE .
+
+    $default  reduce using rule 52 (Operand)
+
+
+State 19
+
+   53 Operand: FALSE .
+
+    $default  reduce using rule 53 (Operand)
+
+
+State 20
+
+   50 Operand: INT_LIT .
+
+    $default  reduce using rule 50 (Operand)
+
+
+State 21
+
+   51 Operand: FLOAT_LIT .
+
+    $default  reduce using rule 51 (Operand)
+
+
+State 22
+
+   55 Operand: IDENT .
+
+    $default  reduce using rule 55 (Operand)
+
+
+State 23
+
+    0 $accept: Program . $end
+
+    $end  shift, and go to state 57
+
+
+State 24
+
+    1 Program: StatementList .
+    2 StatementList: StatementList . Statement
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    $default  reduce using rule 1 (Program)
+
+    Statement        go to state 58
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 25
+
+    3 StatementList: Statement .
+
+    $default  reduce using rule 3 (StatementList)
+
+
+State 26
+
+    4 Statement: DeclarationStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 59
+
+
+State 27
+
+   18 Type: TypeName .
+
+    $default  reduce using rule 18 (Type)
+
+
+State 28
+
+   49 PrimaryExpr: Type . '(' Expression ')'
+
+    '('  shift, and go to state 60
+
+
+State 29
+
+   17 Type: TypeX . TypeName
+   19 TypeX: TypeX . '[' Expression ']'
+
+    INT     shift, and go to state 2
+    FLOAT   shift, and go to state 3
+    BOOL    shift, and go to state 4
+    STRING  shift, and go to state 5
+    '['     shift, and go to state 61
+
+    TypeName  go to state 62
+
+
+State 30
+
+   21 Expression: Expression . LOR Expression2
+   57 SimpleStmt: Expression . '=' Expression
+   58           | Expression . ADD_ASSIGN Expression
+   59           | Expression . SUB_ASSIGN Expression
+   60           | Expression . MUL_ASSIGN Expression
+   61           | Expression . QUO_ASSIGN Expression
+   62           | Expression . REM_ASSIGN Expression
+   63           | Expression .
+   64           | Expression . INC
+   65           | Expression . DEC
+
+    INC         shift, and go to state 63
+    DEC         shift, and go to state 64
+    '='         shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    QUO_ASSIGN  shift, and go to state 69
+    REM_ASSIGN  shift, and go to state 70
+    LOR         shift, and go to state 71
+
+    $default  reduce using rule 63 (SimpleStmt)
+
+
+State 31
+
+   22 Expression: Expression2 .
+   23 Expression2: Expression2 . LAND Expression3
+
+    LAND  shift, and go to state 72
+
+    $default  reduce using rule 22 (Expression)
+
+
+State 32
+
+   24 Expression2: Expression3 .
+   25 Expression3: Expression3 . '>' Expression5
+   26            | Expression3 . '<' Expression5
+   27            | Expression3 . GEQ Expression5
+   28            | Expression3 . LEQ Expression5
+   29            | Expression3 . EQL Expression5
+   30            | Expression3 . NEQ Expression5
+
+    '>'  shift, and go to state 73
+    '<'  shift, and go to state 74
+    GEQ  shift, and go to state 75
+    LEQ  shift, and go to state 76
+    EQL  shift, and go to state 77
+    NEQ  shift, and go to state 78
+
+    $default  reduce using rule 24 (Expression2)
+
+
+State 33
+
+   31 Expression3: Expression5 .
+   32 Expression5: Expression5 . '+' Expression6
+   33            | Expression5 . '-' Expression6
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 31 (Expression3)
+
+
+State 34
+
+   34 Expression5: Expression6 .
+   35 Expression6: Expression6 . '*' Expression7
+   36            | Expression6 . '/' Expression7
+   37            | Expression6 . '%' Expression7
+
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '%'  shift, and go to state 83
+
+    $default  reduce using rule 34 (Expression5)
+
+
+State 35
+
+   38 Expression6: Expression7 .
+
+    $default  reduce using rule 38 (Expression6)
+
+
+State 36
+
+   39 Expression7: UnaryExpr .
+
+    $default  reduce using rule 39 (Expression7)
+
+
+State 37
+
+   40 UnaryExpr: UnaryExprX . PrimaryExpr
+   42 UnaryExprX: UnaryExprX . unary_op
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    unary_op     go to state 84
+    PrimaryExpr  go to state 85
+    Operand      go to state 40
+
+
+State 38
+
+   43 UnaryExprX: unary_op .
+
+    $default  reduce using rule 43 (UnaryExprX)
+
+
+State 39
+
+   41 UnaryExpr: PrimaryExpr .
+   48 PrimaryExpr: PrimaryExpr . '[' Expression ']'
+
+    '['  shift, and go to state 86
+
+    $default  reduce using rule 41 (UnaryExpr)
+
+
+State 40
+
+   47 PrimaryExpr: Operand .
+
+    $default  reduce using rule 47 (PrimaryExpr)
+
+
+State 41
+
+    5 Statement: SimpleStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 87
+
+
+State 42
+
+    6 Statement: Block . NEWLINE
+
+    NEWLINE  shift, and go to state 88
+
+
+State 43
+
+    7 Statement: IfStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 89
+
+
+State 44
+
+    8 Statement: ForStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 90
+
+
+State 45
+
+    9 Statement: PrintStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 91
+
+
+State 46
+
+   11 DeclarationStmt: VAR IDENT . Type
+   12                | VAR IDENT . Type '=' Expression
+
+    INT     shift, and go to state 2
+    FLOAT   shift, and go to state 3
+    BOOL    shift, and go to state 4
+    STRING  shift, and go to state 5
+    '['     shift, and go to state 11
+
+    TypeName  go to state 27
+    Type      go to state 92
+    TypeX     go to state 29
+
+
+State 47
+
+   54 Operand: '"' STRING_LIT . '"'
+
+    '"'  shift, and go to state 93
+
+
+State 48
+
+   21 Expression: Expression . LOR Expression2
+   56 Operand: '(' Expression . ')'
+
+    LOR  shift, and go to state 71
+    ')'  shift, and go to state 94
+
+
+State 49
+
+   20 TypeX: '[' Expression . ']'
+   21 Expression: Expression . LOR Expression2
+
+    LOR  shift, and go to state 71
+    ']'  shift, and go to state 95
+
+
+State 50
+
+   67 Block: '{' $@1 . StatementList '}'
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    StatementList    go to state 96
+    Statement        go to state 25
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 51
+
+   78 PrintStmt: PRINT '(' . Expression ')'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 97
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 52
+
+   79 PrintStmt: PRINTLN '(' . Expression ')'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 98
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 53
+
+   21 Expression: Expression . LOR Expression2
+   69 IfStmt: IF Expression . $@2 IfStmt2
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 68 ($@2)
+
+    $@2  go to state 99
+
+
+State 54
+
+   21 Expression: Expression . LOR Expression2
+   57 SimpleStmt: Expression . '=' Expression
+   58           | Expression . ADD_ASSIGN Expression
+   59           | Expression . SUB_ASSIGN Expression
+   60           | Expression . MUL_ASSIGN Expression
+   61           | Expression . QUO_ASSIGN Expression
+   62           | Expression . REM_ASSIGN Expression
+   63           | Expression .
+   64           | Expression . INC
+   65           | Expression . DEC
+   75 ForStmt: FOR Expression . '{' $@3 StatementList '}'
+
+    INC         shift, and go to state 63
+    DEC         shift, and go to state 64
+    '='         shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    QUO_ASSIGN  shift, and go to state 69
+    REM_ASSIGN  shift, and go to state 70
+    LOR         shift, and go to state 71
+    '{'         shift, and go to state 100
+
+    $default  reduce using rule 63 (SimpleStmt)
+
+
+State 55
+
+   77 ForClause: SimpleStmt . ';' Expression ';' SimpleStmt
+
+    ';'  shift, and go to state 101
+
+
+State 56
+
+   76 ForStmt: FOR ForClause . '{' StatementList '}'
+
+    '{'  shift, and go to state 102
+
+
+State 57
+
+    0 $accept: Program $end .
+
+    $default  accept
+
+
+State 58
+
+    2 StatementList: StatementList Statement .
+
+    $default  reduce using rule 2 (StatementList)
+
+
+State 59
+
+    4 Statement: DeclarationStmt NEWLINE .
+
+    $default  reduce using rule 4 (Statement)
+
+
+State 60
+
+   49 PrimaryExpr: Type '(' . Expression ')'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 103
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 61
+
+   19 TypeX: TypeX '[' . Expression ']'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 104
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 62
+
+   17 Type: TypeX TypeName .
+
+    $default  reduce using rule 17 (Type)
+
+
+State 63
+
+   64 SimpleStmt: Expression INC .
+
+    $default  reduce using rule 64 (SimpleStmt)
+
+
+State 64
+
+   65 SimpleStmt: Expression DEC .
+
+    $default  reduce using rule 65 (SimpleStmt)
+
+
+State 65
+
+   57 SimpleStmt: Expression '=' . Expression
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 105
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 66
+
+   58 SimpleStmt: Expression ADD_ASSIGN . Expression
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 106
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 67
+
+   59 SimpleStmt: Expression SUB_ASSIGN . Expression
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 107
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 68
+
+   60 SimpleStmt: Expression MUL_ASSIGN . Expression
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 108
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 69
+
+   61 SimpleStmt: Expression QUO_ASSIGN . Expression
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 109
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 70
+
+   62 SimpleStmt: Expression REM_ASSIGN . Expression
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 110
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 71
+
+   21 Expression: Expression LOR . Expression2
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression2  go to state 111
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 72
+
+   23 Expression2: Expression2 LAND . Expression3
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression3  go to state 112
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 73
+
+   25 Expression3: Expression3 '>' . Expression5
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression5  go to state 113
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 74
+
+   26 Expression3: Expression3 '<' . Expression5
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression5  go to state 114
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 75
+
+   27 Expression3: Expression3 GEQ . Expression5
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression5  go to state 115
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 76
+
+   28 Expression3: Expression3 LEQ . Expression5
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression5  go to state 116
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 77
+
+   29 Expression3: Expression3 EQL . Expression5
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression5  go to state 117
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 78
+
+   30 Expression3: Expression3 NEQ . Expression5
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression5  go to state 118
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 79
+
+   32 Expression5: Expression5 '+' . Expression6
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression6  go to state 119
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 80
+
+   33 Expression5: Expression5 '-' . Expression6
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression6  go to state 120
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 81
+
+   35 Expression6: Expression6 '*' . Expression7
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression7  go to state 121
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 82
+
+   36 Expression6: Expression6 '/' . Expression7
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression7  go to state 122
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 83
+
+   37 Expression6: Expression6 '%' . Expression7
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression7  go to state 123
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 84
+
+   42 UnaryExprX: UnaryExprX unary_op .
+
+    $default  reduce using rule 42 (UnaryExprX)
+
+
+State 85
+
+   40 UnaryExpr: UnaryExprX PrimaryExpr .
+   48 PrimaryExpr: PrimaryExpr . '[' Expression ']'
+
+    '['  shift, and go to state 86
+
+    $default  reduce using rule 40 (UnaryExpr)
+
+
+State 86
+
+   48 PrimaryExpr: PrimaryExpr '[' . Expression ']'
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 124
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 87
+
+    5 Statement: SimpleStmt NEWLINE .
+
+    $default  reduce using rule 5 (Statement)
+
+
+State 88
+
+    6 Statement: Block NEWLINE .
+
+    $default  reduce using rule 6 (Statement)
+
+
+State 89
+
+    7 Statement: IfStmt NEWLINE .
+
+    $default  reduce using rule 7 (Statement)
+
+
+State 90
+
+    8 Statement: ForStmt NEWLINE .
+
+    $default  reduce using rule 8 (Statement)
+
+
+State 91
+
+    9 Statement: PrintStmt NEWLINE .
+
+    $default  reduce using rule 9 (Statement)
+
+
+State 92
+
+   11 DeclarationStmt: VAR IDENT Type .
+   12                | VAR IDENT Type . '=' Expression
+
+    '='  shift, and go to state 125
+
+    $default  reduce using rule 11 (DeclarationStmt)
+
+
+State 93
+
+   54 Operand: '"' STRING_LIT '"' .
+
+    $default  reduce using rule 54 (Operand)
+
+
+State 94
+
+   56 Operand: '(' Expression ')' .
+
+    $default  reduce using rule 56 (Operand)
+
+
+State 95
+
+   20 TypeX: '[' Expression ']' .
+
+    $default  reduce using rule 20 (TypeX)
+
+
+State 96
+
+    2 StatementList: StatementList . Statement
+   67 Block: '{' $@1 StatementList . '}'
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    '}'        shift, and go to state 126
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    Statement        go to state 58
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 97
+
+   21 Expression: Expression . LOR Expression2
+   78 PrintStmt: PRINT '(' Expression . ')'
+
+    LOR  shift, and go to state 71
+    ')'  shift, and go to state 127
+
+
+State 98
+
+   21 Expression: Expression . LOR Expression2
+   79 PrintStmt: PRINTLN '(' Expression . ')'
+
+    LOR  shift, and go to state 71
+    ')'  shift, and go to state 128
+
+
+State 99
+
+   69 IfStmt: IF Expression $@2 . IfStmt2
+
+    '{'  shift, and go to state 12
+
+    Block    go to state 129
+    IfStmt2  go to state 130
+
+
+State 100
+
+   75 ForStmt: FOR Expression '{' . $@3 StatementList '}'
+
+    $default  reduce using rule 74 ($@3)
+
+    $@3  go to state 131
+
+
+State 101
+
+   77 ForClause: SimpleStmt ';' . Expression ';' SimpleStmt
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 132
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 102
+
+   76 ForStmt: FOR ForClause '{' . StatementList '}'
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    StatementList    go to state 133
+    Statement        go to state 25
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 103
+
+   21 Expression: Expression . LOR Expression2
+   49 PrimaryExpr: Type '(' Expression . ')'
+
+    LOR  shift, and go to state 71
+    ')'  shift, and go to state 134
+
+
+State 104
+
+   19 TypeX: TypeX '[' Expression . ']'
+   21 Expression: Expression . LOR Expression2
+
+    LOR  shift, and go to state 71
+    ']'  shift, and go to state 135
+
+
+State 105
+
+   21 Expression: Expression . LOR Expression2
+   57 SimpleStmt: Expression '=' Expression .
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 57 (SimpleStmt)
+
+
+State 106
+
+   21 Expression: Expression . LOR Expression2
+   58 SimpleStmt: Expression ADD_ASSIGN Expression .
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 58 (SimpleStmt)
+
+
+State 107
+
+   21 Expression: Expression . LOR Expression2
+   59 SimpleStmt: Expression SUB_ASSIGN Expression .
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 59 (SimpleStmt)
+
+
+State 108
+
+   21 Expression: Expression . LOR Expression2
+   60 SimpleStmt: Expression MUL_ASSIGN Expression .
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 60 (SimpleStmt)
+
+
+State 109
+
+   21 Expression: Expression . LOR Expression2
+   61 SimpleStmt: Expression QUO_ASSIGN Expression .
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 61 (SimpleStmt)
+
+
+State 110
+
+   21 Expression: Expression . LOR Expression2
+   62 SimpleStmt: Expression REM_ASSIGN Expression .
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 62 (SimpleStmt)
+
+
+State 111
+
+   21 Expression: Expression LOR Expression2 .
+   23 Expression2: Expression2 . LAND Expression3
+
+    LAND  shift, and go to state 72
+
+    $default  reduce using rule 21 (Expression)
+
+
+State 112
+
+   23 Expression2: Expression2 LAND Expression3 .
+   25 Expression3: Expression3 . '>' Expression5
+   26            | Expression3 . '<' Expression5
+   27            | Expression3 . GEQ Expression5
+   28            | Expression3 . LEQ Expression5
+   29            | Expression3 . EQL Expression5
+   30            | Expression3 . NEQ Expression5
+
+    '>'  shift, and go to state 73
+    '<'  shift, and go to state 74
+    GEQ  shift, and go to state 75
+    LEQ  shift, and go to state 76
+    EQL  shift, and go to state 77
+    NEQ  shift, and go to state 78
+
+    $default  reduce using rule 23 (Expression2)
+
+
+State 113
+
+   25 Expression3: Expression3 '>' Expression5 .
+   32 Expression5: Expression5 . '+' Expression6
+   33            | Expression5 . '-' Expression6
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 25 (Expression3)
+
+
+State 114
+
+   26 Expression3: Expression3 '<' Expression5 .
+   32 Expression5: Expression5 . '+' Expression6
+   33            | Expression5 . '-' Expression6
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 26 (Expression3)
+
+
+State 115
+
+   27 Expression3: Expression3 GEQ Expression5 .
+   32 Expression5: Expression5 . '+' Expression6
+   33            | Expression5 . '-' Expression6
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 27 (Expression3)
+
+
+State 116
+
+   28 Expression3: Expression3 LEQ Expression5 .
+   32 Expression5: Expression5 . '+' Expression6
+   33            | Expression5 . '-' Expression6
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 28 (Expression3)
+
+
+State 117
+
+   29 Expression3: Expression3 EQL Expression5 .
+   32 Expression5: Expression5 . '+' Expression6
+   33            | Expression5 . '-' Expression6
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 29 (Expression3)
+
+
+State 118
+
+   30 Expression3: Expression3 NEQ Expression5 .
+   32 Expression5: Expression5 . '+' Expression6
+   33            | Expression5 . '-' Expression6
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 30 (Expression3)
+
+
+State 119
+
+   32 Expression5: Expression5 '+' Expression6 .
+   35 Expression6: Expression6 . '*' Expression7
+   36            | Expression6 . '/' Expression7
+   37            | Expression6 . '%' Expression7
+
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '%'  shift, and go to state 83
+
+    $default  reduce using rule 32 (Expression5)
+
+
+State 120
+
+   33 Expression5: Expression5 '-' Expression6 .
+   35 Expression6: Expression6 . '*' Expression7
+   36            | Expression6 . '/' Expression7
+   37            | Expression6 . '%' Expression7
+
+    '*'  shift, and go to state 81
+    '/'  shift, and go to state 82
+    '%'  shift, and go to state 83
+
+    $default  reduce using rule 33 (Expression5)
+
+
+State 121
+
+   35 Expression6: Expression6 '*' Expression7 .
+
+    $default  reduce using rule 35 (Expression6)
+
+
+State 122
+
+   36 Expression6: Expression6 '/' Expression7 .
+
+    $default  reduce using rule 36 (Expression6)
+
+
+State 123
+
+   37 Expression6: Expression6 '%' Expression7 .
+
+    $default  reduce using rule 37 (Expression6)
+
+
+State 124
+
+   21 Expression: Expression . LOR Expression2
+   48 PrimaryExpr: PrimaryExpr '[' Expression . ']'
+
+    LOR  shift, and go to state 71
+    ']'  shift, and go to state 136
+
+
+State 125
+
+   12 DeclarationStmt: VAR IDENT Type '=' . Expression
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 137
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+
+
+State 126
+
+   67 Block: '{' $@1 StatementList '}' .
+
+    $default  reduce using rule 67 (Block)
+
+
+State 127
+
+   78 PrintStmt: PRINT '(' Expression ')' .
+
+    $default  reduce using rule 78 (PrintStmt)
+
+
+State 128
+
+   79 PrintStmt: PRINTLN '(' Expression ')' .
+
+    $default  reduce using rule 79 (PrintStmt)
+
+
+State 129
+
+   70 IfStmt2: Block .
+   71        | Block . ELSE IfStmt3
+
+    ELSE  shift, and go to state 138
+
+    $default  reduce using rule 70 (IfStmt2)
+
+
+State 130
+
+   69 IfStmt: IF Expression $@2 IfStmt2 .
+
+    $default  reduce using rule 69 (IfStmt)
+
+
+State 131
+
+   75 ForStmt: FOR Expression '{' $@3 . StatementList '}'
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    StatementList    go to state 139
+    Statement        go to state 25
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 132
+
+   21 Expression: Expression . LOR Expression2
+   77 ForClause: SimpleStmt ';' Expression . ';' SimpleStmt
+
+    LOR  shift, and go to state 71
+    ';'  shift, and go to state 140
+
+
+State 133
+
+    2 StatementList: StatementList . Statement
+   76 ForStmt: FOR ForClause '{' StatementList . '}'
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    '}'        shift, and go to state 141
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    Statement        go to state 58
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 134
+
+   49 PrimaryExpr: Type '(' Expression ')' .
+
+    $default  reduce using rule 49 (PrimaryExpr)
+
+
+State 135
+
+   19 TypeX: TypeX '[' Expression ']' .
+
+    $default  reduce using rule 19 (TypeX)
+
+
+State 136
+
+   48 PrimaryExpr: PrimaryExpr '[' Expression ']' .
+
+    $default  reduce using rule 48 (PrimaryExpr)
+
+
+State 137
+
+   12 DeclarationStmt: VAR IDENT Type '=' Expression .
+   21 Expression: Expression . LOR Expression2
+
+    LOR  shift, and go to state 71
+
+    $default  reduce using rule 12 (DeclarationStmt)
+
+
+State 138
+
+   71 IfStmt2: Block ELSE . IfStmt3
+
+    '{'  shift, and go to state 12
+    IF   shift, and go to state 16
+
+    Block    go to state 142
+    IfStmt   go to state 143
+    IfStmt3  go to state 144
+
+
+State 139
+
+    2 StatementList: StatementList . Statement
+   75 ForStmt: FOR Expression '{' $@3 StatementList . '}'
+
+    VAR        shift, and go to state 1
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    '{'        shift, and go to state 12
+    '}'        shift, and go to state 145
+    NEWLINE    shift, and go to state 13
+    PRINT      shift, and go to state 14
+    PRINTLN    shift, and go to state 15
+    IF         shift, and go to state 16
+    FOR        shift, and go to state 17
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    Statement        go to state 58
+    DeclarationStmt  go to state 26
+    TypeName         go to state 27
+    Type             go to state 28
+    TypeX            go to state 29
+    Expression       go to state 30
+    Expression2      go to state 31
+    Expression3      go to state 32
+    Expression5      go to state 33
+    Expression6      go to state 34
+    Expression7      go to state 35
+    UnaryExpr        go to state 36
+    UnaryExprX       go to state 37
+    unary_op         go to state 38
+    PrimaryExpr      go to state 39
+    Operand          go to state 40
+    SimpleStmt       go to state 41
+    Block            go to state 42
+    IfStmt           go to state 43
+    ForStmt          go to state 44
+    PrintStmt        go to state 45
+
+
+State 140
+
+   77 ForClause: SimpleStmt ';' Expression ';' . SimpleStmt
+
+    INT        shift, and go to state 2
+    FLOAT      shift, and go to state 3
+    BOOL       shift, and go to state 4
+    STRING     shift, and go to state 5
+    '"'        shift, and go to state 6
+    '+'        shift, and go to state 7
+    '-'        shift, and go to state 8
+    '!'        shift, and go to state 9
+    '('        shift, and go to state 10
+    '['        shift, and go to state 11
+    TRUE       shift, and go to state 18
+    FALSE      shift, and go to state 19
+    INT_LIT    shift, and go to state 20
+    FLOAT_LIT  shift, and go to state 21
+    IDENT      shift, and go to state 22
+
+    TypeName     go to state 27
+    Type         go to state 28
+    TypeX        go to state 29
+    Expression   go to state 30
+    Expression2  go to state 31
+    Expression3  go to state 32
+    Expression5  go to state 33
+    Expression6  go to state 34
+    Expression7  go to state 35
+    UnaryExpr    go to state 36
+    UnaryExprX   go to state 37
+    unary_op     go to state 38
+    PrimaryExpr  go to state 39
+    Operand      go to state 40
+    SimpleStmt   go to state 146
+
+
+State 141
+
+   76 ForStmt: FOR ForClause '{' StatementList '}' .
+
+    $default  reduce using rule 76 (ForStmt)
+
+
+State 142
+
+   73 IfStmt3: Block .
+
+    $default  reduce using rule 73 (IfStmt3)
+
+
+State 143
+
+   72 IfStmt3: IfStmt .
+
+    $default  reduce using rule 72 (IfStmt3)
+
+
+State 144
+
+   71 IfStmt2: Block ELSE IfStmt3 .
+
+    $default  reduce using rule 71 (IfStmt2)
+
+
+State 145
+
+   75 ForStmt: FOR Expression '{' $@3 StatementList '}' .
+
+    $default  reduce using rule 75 (ForStmt)
+
+
+State 146
+
+   77 ForClause: SimpleStmt ';' Expression ';' SimpleStmt .
+
+    $default  reduce using rule 77 (ForClause)
